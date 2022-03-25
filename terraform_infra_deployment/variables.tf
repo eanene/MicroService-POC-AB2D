@@ -1,6 +1,6 @@
 variable "aws_region" {
   description = "AWS region to launch servers."
-  default     = "us-east1"
+  default     = "us-east-1"
 }
 variable "env" {
   description = "Targeted Depolyment environment"
@@ -60,5 +60,9 @@ variable "aws_ecs_go_app_service_name" {
 }
 variable "aws_account_number" {
   default = "330810004472"
+}
+variable "AWS_ACCOUNT_ID" {
+  default = "330810004472"
+  
 }
 

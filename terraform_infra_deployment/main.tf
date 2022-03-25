@@ -434,20 +434,31 @@ resource "aws_codepipeline" "node_app_pipeline" {
 
     action {
       category = "Source"
-      configuration = {
-        "BranchName"           = var.nodejs_project_repository_branch
-        # "PollForSourceChanges" = "false"
-        "RepositoryName"       = var.nodejs_project_repository_name
-      }
+      
+      # configuration = {
+      #   "BranchName"           = var.nodejs_project_repository_branch
+      #   # "PollForSourceChanges" = "false"
+      #   "RepositoryName"       = var.nodejs_project_repository_name
+      # }
       input_artifacts = []
       name            = "Source"
       output_artifacts = [
         "SourceArtifact"
       ]
-      owner     = "AWS"
-      provider  = "CodeCommit"
+      owner     = "ThirdParty"
+      provider  = "GitHub"
       run_order = 1
       version   = "1"
+      # tried to use version 2 but terraform won't run apply
+
+      configuration = {
+        Owner = "ThirdParty"
+        #Owner      = var.repo_owner
+        #Repo       = var.repo_name
+        Repo       = "Nnode-Service-1"
+        Branch     = "main"
+        #OAuthToken = var.github_token
+      }
     }
   }
   stage {
@@ -476,12 +487,12 @@ resource "aws_codepipeline" "node_app_pipeline" {
             {
               name  = "IMAGE_REPO_NAME"
               type  = "PLAINTEXT"
-              value = "nodeapp"
+              value = "micro-services-demo"
             },
             {
               name  = "IMAGE_TAG"
               type  = "PLAINTEXT"
-              value = "latest"
+              value = "service1"
             },
             {
               name  = "CONTAINER_NAME"
@@ -545,20 +556,30 @@ resource "aws_codepipeline" "python_app_pipeline" {
 
     action {
       category = "Source"
-      configuration = {
-        "BranchName"           = var.python_project_repository_branch
-        # "PollForSourceChanges" = "false"
-        "RepositoryName"       = var.python_project_repository_name
-      }
+      # configuration = {
+      #   "BranchName"           = var.python_project_repository_branch
+      #   # "PollForSourceChanges" = "false"
+      #   "RepositoryName"       = var.python_project_repository_name
+      # }
       input_artifacts = []
       name            = "Source"
       output_artifacts = [
         "source_output"
       ]
-      owner     = "AWS"
-      provider  = "CodeCommit"
+      owner     = "ThirdParty"
+      provider  = "Github"
       run_order = 1
-      version   = "1"
+      version   = "1" 
+      # tried to use version 2 but terraform won't run apply
+
+      configuration = {
+        Owner = "ThirdParty"
+        #Owner      = var.repo_owner
+        #Repo       = var.repo_name
+        Repo       = "Python-Service-1"
+        Branch     = "main"
+        #OAuthToken = var.github_token
+      }
     }
   }
   stage {
@@ -659,20 +680,30 @@ resource "aws_codepipeline" "go_app_pipeline" {
 
     action {
       category = "Source"
-      configuration = {
-        "BranchName"           = var.golang_project_repository_branch
-        # "PollForSourceChanges" = "false"
-        "RepositoryName"       = var.golang_project_repository_name
-      }
+      # configuration = {
+      #   "BranchName"           = var.golang_project_repository_branch
+      #   # "PollForSourceChanges" = "false"
+      #   "RepositoryName"       = var.golang_project_repository_name
+      # }
       input_artifacts = []
       name            = "Source"
       output_artifacts = [
         "SourceArtifact"
       ]
-      owner     = "AWS"
-      provider  = "CodeCommit"
+      owner     = "ThirdParty"
+      provider  = "Github"
       run_order = 1
       version   = "1"
+      # tried to use version 2 but terraform won't run apply
+
+      configuration = {
+        Owner = "ThirdParty"
+        #Owner      = var.repo_owner
+        #Repo       = var.repo_name
+        Repo       = "GoLang-Service-1"
+        Branch     = "main"
+        #OAuthToken = var.github_token
+      }
     }
   }
   stage {
