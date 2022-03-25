@@ -12,13 +12,6 @@ terraform {
   #region = var.aws_region
 }
 
-# provider "aws" {
-#   region = var.aws_region
-#   access_key = "ASIAU2BOQCP4CXAKUN4Z"
-#   secret_key = "gk68nf4SbJ4uQRnEG3VrsCUFyeDo15XGhT9bc1TL"
-#   #AWS_SESSION_TOKEN = FwoGZXIvYXdzEO///////////wEaDK4elVHc/WodvFvDCSKoAT1v3eKuMw7Y3nAb+pu3VT5mkbc0yLOWXTAKdKmwro1ACdsrGrYDmw5RzdlFmEW6YupbfxVYcefswIFigQiS7q9frvm1n3B5cMlBccwMyJktLdMH68bJQm8uHYpWqONeOuxEXbuVClsI5Ik+69HTg8XbD+tJn+VqG/TYXWXOUv91MxQKY/KGmwjC2AHVTs8Wb6QzVyitGL33jf4AQrhRuOdnzIsDJwS/Oyjau/ORBjItRuzirJ8mig+gIpdYfY57TSPnVNi0m9v8aIoVZeIz0zT1omGEVVkZbfOYZ2gg
-# }
-
 # data "aws_codecommit_repository" "nodeapp_repo" {
 #   repository_name = var.nodejs_project_repository_name
 # }
