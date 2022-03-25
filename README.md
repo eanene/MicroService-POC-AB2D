@@ -1,6 +1,6 @@
 
 
-## Microservices CI/CD With Terraform, AWS CodePipeline + AWS CodeCommit + AWS CodeBuild + AWS ECS
+## Microservices CI/CD With Terraform, AWS CodePipeline + AWS CodeBuild + AWS ECS
 
 
 
