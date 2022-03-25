@@ -25,17 +25,6 @@ and integrate systems more effectively.
 - [AWS CodeBuild](https://aws.amazon.com/codebuild/) - AWS CodeBuild is a fully managed continuous integration service that compiles source code, runs tests, and produces software packages that are ready to deploy
 - [AWS ECS](https://aws.amazon.com/ecs/?whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc&ecs-blogs.sort-by=item.additionalFields.createdDate&ecs-blogs.sort-order=desc) - Amazon Elastic Container Service (Amazon ECS) is a fully managed container orchestration service that helps you easily deploy, manage, and scale containerized applications.
 
-## Installation
-
-[Node.js Installation](https://nodejs.org/en/download/)
-
-[Python Installation](https://www.python.org/downloads/)
-
-[Go Installation](https://golang.org/doc/install)
-
-[Docker Installation](https://docs.docker.com/engine/install/)
-
-[Terraform Installation](https://learn.hashicorp.com/tutorials/terraform/install-cli)
 
 
 ## Microservice Manual Setup instuctuctions
