@@ -7,7 +7,7 @@ app.get('/', (req, res) => {
   })
 
 app.get('/services/service-1', (req, res) => {
-  res.send('This is a sample response from service 1 (Nodejs App Service) v4')
+  res.send('This is a sample response from service 1 yay (Nodejs App Service) v4')
 })
 app.get('/services/service-1/status', (req, res) => {
     res.send('ok')
