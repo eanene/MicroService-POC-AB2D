@@ -1,14 +1,14 @@
 variable "aws_region" {
   description = "AWS region to launch servers."
-  default     = "us-east-1"
+  #default     = "us-east-1"
 }
 variable "env" {
   description = "Targeted Depolyment environment"
-  default     = "impl"
+  #default     = "impl"
 }
 variable "nodejs_project_repository_name" {
   description = "Nodejs Project Repository name to connect to"
-  default     = "nodeapp"
+  #default     = "nodeapp"
 }
 variable "nodejs_project_repository_branch" {
   description = "Nodejs Project Repository branch to connect to"
@@ -63,6 +63,14 @@ variable "aws_account_number" {
 }
 variable "AWS_ACCOUNT_ID" {
   default = "330810004472"
+  
+}
+variable "github_token" {
+  type = string
+  
+}
+variable "repo_owner" {
+  type = string
   
 }
 
