@@ -6,17 +6,17 @@ variable "env" {
 
 variable "repo_name" {
   description = "GitHub repository name to connect to"
-  default     = ""
+  default     = "simplespringapp"
 }
 
 variable "repo_owner" {
   description = "GitHub repository project owner"
-  default     = ""
+  default     = "sb-wchaney"
 }
 
 variable "repo_branch" {
   description = "GitHub repository branch"
-  default     = ""
+  default     = "master"
 }
 
 variable "github_token" {
@@ -31,22 +31,17 @@ variable "artifacts_bucket_name" {
 
 variable "pipeline_name" {
   description = "AWS CodePipeline name"
-  default     = "microservices-pipeline"
-}
-
-variable "role_arn" {
-  description = "AWS ARN of the IAM Service Role for the CodePipeline project to use"
-  default     = ""
+  default     = "java-microservice-pipeline"
 }
 
 variable "ecs_cluster_name" {
   description = "Target Amazon ECS Cluster Name"
-  default     = "Microservice-Cluster"
+  default     = "microservice-test"
 }
 
 variable "ecs_app_service_name" {
   description = "Target Amazon ECS Cluster NodeJs App Service name"
-  default     = "nodeAppService"
+  default     = "javaAppService"
 }
 
 variable "aws_account_number" {
@@ -64,10 +59,13 @@ variable "codebuild_project_name" {
 
 variable "buildspec_file_path" {
   description = "Path to buildspec.yaml file"
-  default     = "buildspec.yaml"
+  default     = "buildspec.yml"
 }
 
-variable "service_role_arn" {
-  description = "AWS ARN of the IAM Service Role for the CodeBuild project to use"
-  default     = ""
-}
+# variable microservice_defs {
+#   default = [
+#     {
+
+#     }
+#   ]
+# }

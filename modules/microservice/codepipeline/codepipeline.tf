@@ -68,7 +68,7 @@ resource "aws_codepipeline" "microservice" {
             {
               name  = "IMAGE_REPO_NAME"
               type  = "PLAINTEXT"
-              value = "nodeapp"
+              value = "javaapp"
             },
             {
               name  = "IMAGE_TAG"
@@ -78,14 +78,14 @@ resource "aws_codepipeline" "microservice" {
             {
               name  = "CONTAINER_NAME"
               type  = "PLAINTEXT"
-              value = "nodeAppContainer"
+              value = "javaapp"
             },
           ]
         )
         "ProjectName" = var.codebuild_project_name
       }
       input_artifacts = [
-        "SourceArtifact"
+        "source_output"
       ]
       name = "Build"
       output_artifacts = [
