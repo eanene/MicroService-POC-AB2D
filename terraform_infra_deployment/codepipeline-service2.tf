@@ -3,7 +3,7 @@
 #################################################
 
 resource "aws_codepipeline" "python_app_pipeline" {
-  name     = "python-app-pipeline-ab2d"
+  name     = "${terraform.workspace}-python-service"
   role_arn = aws_iam_role.apps_codepipeline_role.arn
   tags = {
     Environment = var.env
@@ -17,31 +17,22 @@ resource "aws_codepipeline" "python_app_pipeline" {
   stage {
     name = "Source"
 
-    action {
-      category = "Source"
-      # configuration = {
-      #   "BranchName"           = var.python_project_repository_branch
-      #   # "PollForSourceChanges" = "false"
-      #   "RepositoryName"       = var.python_project_repository_name
-      # }
-      input_artifacts = []
-      name            = "Source"
-      output_artifacts = [
-        "source_output"
-      ]
-      owner     = "ThirdParty"
-      provider  = "Github"
-      #run_order = 1
-      version   = "1" 
-      # tried to use version 2 but terraform won't run apply
+     action {
+      name             = "Source"
+      category         = "Source"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
+      version          = "1"
+      output_artifacts = ["SourceArtifact"]
 
       configuration = {
-      
-        Owner      = var.repo_owner
-        #Repo       = var.repo_name
-        Repo       = "Python-Service-1"
-        Branch     = "main"
-        OAuthToken = var.github_token
+        ConnectionArn    = aws_codestarconnections_connection.ab2d-github-connection.arn
+        FullRepositoryId = "sb-ebukaanene/Python-Service-2"
+        #Owner                = "AB2D"
+        #PollForSourceChanges = "false"
+        #Repo                 = "Python-Service-2"
+        BranchName               = "main"
+        #OAuthToken           = data.aws_ssm_parameter.oauth.value
       }
     }
   }
@@ -66,17 +57,17 @@ resource "aws_codepipeline" "python_app_pipeline" {
             {
               name  = "AWS_ACCOUNT_ID"
               type  = "PARAMETER_STORE"
-              value = "ACCOUNT_ID"
+              value = var.aws_account_number
             },
             {
               name  = "IMAGE_REPO_NAME"
               type  = "PLAINTEXT"
-              value = "nodeapp"
+              value = "micro-services-demo"
             },
             {
               name  = "IMAGE_TAG"
               type  = "PLAINTEXT"
-              value = "latest"
+              value = "service2"
             },
             {
               name  = "CONTAINER_NAME"
@@ -88,7 +79,7 @@ resource "aws_codepipeline" "python_app_pipeline" {
         "ProjectName" = aws_codebuild_project.containerAppBuild.name
       }
       input_artifacts = [
-        "source_output"
+        "SourceArtifact"
       ]
       name = "Build"
       output_artifacts = [

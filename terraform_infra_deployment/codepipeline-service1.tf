@@ -3,8 +3,14 @@
 ############### Service 1 #######################
 #################################################
 
+resource "aws_codestarconnections_connection" "ab2d-github-connection" {
+  name          = "GITHUB-connection"
+  provider_type = "GitHub"
+
+}
+
 resource "aws_codepipeline" "node_app_pipeline" {
-  name     = "node-app-pipeline-ab2d"
+  name     = "${terraform.workspace}-node-service"
   role_arn = aws_iam_role.apps_codepipeline_role.arn
   tags = {
     Environment = var.env
@@ -18,32 +24,22 @@ resource "aws_codepipeline" "node_app_pipeline" {
   stage {
     name = "Source"
 
-    action {
-      category = "Source"
-      
-      # configuration = {
-      #   "BranchName"           = var.nodejs_project_repository_branch
-      #   # "PollForSourceChanges" = "false"
-      #   "RepositoryName"       = var.nodejs_project_repository_name
-      # }
-      input_artifacts = []
-      name            = "Source"
-      output_artifacts = [
-        "SourceArtifact"
-      ]
-      owner     = "ThirdParty"
-      provider  = "GitHub"
-      #run_order = 1
-      version   = "1"
-      # tried to use version 2 but terraform won't run apply
+     action {
+      name             = "Source"
+      category         = "Source"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
+      version          = "1"
+      output_artifacts = ["SourceArtifact"]
 
       configuration = {
-        
-        Owner      = var.repo_owner
-        #Repo       = var.repo_name
-        Repo       = "Nnode-Service-1"
-        Branch     = "main"
-        OAuthToken = var.github_token
+        ConnectionArn    = aws_codestarconnections_connection.ab2d-github-connection.arn
+        FullRepositoryId = "sb-ebukaanene/ab2d-nodeapp-service"
+        #Owner                = "AB2D"
+        #PollForSourceChanges = "false"
+        #Repo                 = "Python-Service-2"
+        BranchName               = "main"
+        #OAuthToken           = data.aws_ssm_parameter.oauth.value
       }
     }
   }
@@ -125,3 +121,4 @@ resource "aws_codepipeline" "node_app_pipeline" {
     }
   }
 }
+
