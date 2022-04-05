@@ -81,6 +81,17 @@ resource "aws_codepipeline" "node_app_pipeline" {
               type  = "PLAINTEXT"
               value = "nodeAppContainer"
             },
+            {
+              name  = "SONAR_LOGIN"
+              type  = "PLAINTEXT"
+              value = "56f6f59889361142e334da0878c5f75d6d8b6dd8"
+            },
+            {
+              name  = "SONAR_HOST"
+              type  = "PLAINTEXT"
+              value = "https://sonarqube.cloud.cms.gov"
+            },
+
           ]
         )
         "ProjectName" = aws_codebuild_project.containerAppBuild.name
