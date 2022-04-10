@@ -1,16 +1,9 @@
-
 #################################################
-############### Service 1 #######################
+############### Aggregator Service ##############
 #################################################
 
-resource "aws_codestarconnections_connection" "ab2d-github-connection" {
-  name          = "GITHUB-connection"
-  provider_type = "GitHub"
-
-}
-
-resource "aws_codepipeline" "node_app_pipeline" {
-  name     = "${terraform.workspace}-node-service"
+resource "aws_codepipeline" "aggregator_service_pipeline" {
+  name     = "${var.env}-aggregator-service"
   role_arn = aws_iam_role.apps_codepipeline_role.arn
   tags = {
     Environment = var.env
@@ -24,6 +17,7 @@ resource "aws_codepipeline" "node_app_pipeline" {
   stage {
     name = "Source"
 
+
      action {
       name             = "Source"
       category         = "Source"
@@ -31,10 +25,10 @@ resource "aws_codepipeline" "node_app_pipeline" {
       provider         = "CodeStarSourceConnection"
       version          = "1"
       output_artifacts = ["SourceArtifact"]
-
+      
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.ab2d-github-connection.arn
-        FullRepositoryId = "sb-ebukaanene/ab2d-nodeapp-service"
+        FullRepositoryId = "sb-ebukaanene/Python-Service-2"
         #Owner                = "AB2D"
         #PollForSourceChanges = "false"
         #Repo                 = "Python-Service-2"
@@ -63,35 +57,24 @@ resource "aws_codepipeline" "node_app_pipeline" {
             },
             {
               name  = "AWS_ACCOUNT_ID"
-              type  = "PLAINTEXT"
+              type  = "PARAMETER_STORE"
               value = var.aws_account_number
             },
             {
               name  = "IMAGE_REPO_NAME"
               type  = "PLAINTEXT"
-              value = "micro-services-demo"
+              value = "${var.env}-services"
             },
             {
               name  = "IMAGE_TAG"
               type  = "PLAINTEXT"
-              value = "service1"
+              value = "aggregator-service"
             },
             {
               name  = "CONTAINER_NAME"
               type  = "PLAINTEXT"
-              value = "nodeAppContainer"
+              value = "aggregator-service-container"
             },
-            {
-              name  = "SONAR_LOGIN"
-              type  = "PLAINTEXT"
-              value = "56f6f59889361142e334da0878c5f75d6d8b6dd8"
-            },
-            {
-              name  = "SONAR_HOST"
-              type  = "PLAINTEXT"
-              value = "https://sonarqube.cloud.cms.gov"
-            },
-
           ]
         )
         "ProjectName" = aws_codebuild_project.containerAppBuild.name
@@ -101,7 +84,7 @@ resource "aws_codepipeline" "node_app_pipeline" {
       ]
       name = "Build"
       output_artifacts = [
-        "build_output"
+        "BuildArtifact"
       ]
       owner     = "AWS"
       provider  = "CodeBuild"
@@ -116,12 +99,12 @@ resource "aws_codepipeline" "node_app_pipeline" {
       category = "Deploy"
       configuration = {
         "ClusterName" = var.aws_ecs_cluster_name
-        "ServiceName" = var.aws_ecs_node_app_service_name
+        "ServiceName" = "ab2d-aggregator-service"
         "FileName"    = "imagedefinitions.json"
         #"DeploymentTimeout" = "15"
       }
       input_artifacts = [
-        "build_output"
+        "BuildArtifact"
       ]
       name             = "Deploy"
       output_artifacts = []
