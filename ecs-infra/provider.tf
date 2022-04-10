@@ -9,7 +9,7 @@ terraform {
     }
   }
   required_version = "~> 1.0"
-  
+  #region = var.aws_region
 }
 
 provider "aws" {

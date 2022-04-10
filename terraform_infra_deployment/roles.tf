@@ -161,7 +161,6 @@ resource "aws_iam_role_policy_attachment" "chat_bot_role_n_policy_attach" {
 resource "aws_iam_role" "ab2d_chatbot_role" {
   name                 = "${var.env}ChatbotRole"
   path                 = "/delegatedadmin/developer/"
-  # assume_role_policy   = data.aws_iam_policy_document.aws_chatbot_policy_document.json
   permissions_boundary = "arn:aws:iam::${var.aws_account_number}:policy/cms-cloud-admin/developer-boundary-policy"
   assume_role_policy = <<EOF
 {
