@@ -41,7 +41,7 @@ variable "artifacts_bucket_name" {
 
 variable "aws_ecs_cluster_name" {
   description = "Target Amazon ECS Cluster Name"
-  default     = "Microservice-Cluster"
+  #default     = "Microservice-Cluster"
 }
 
 variable "aws_ecs_node_app_service_name" {

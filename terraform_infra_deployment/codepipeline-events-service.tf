@@ -1,12 +1,17 @@
 
 #################################################
-############### Service 2 #######################
+############### Event Service #################
 #################################################
 
-resource "aws_codepipeline" "go_app_pipeline" {
-  name     = "${terraform.workspace}-go-service"
-  role_arn = aws_iam_role.apps_codepipeline_role.arn 
-  
+# resource "aws_codestarconnections_connection" "ab2d-github-connection" {
+#   name          = "GITHUB-connection"
+#   provider_type = "GitHub"
+
+# }
+
+resource "aws_codepipeline" "events_service_pipeline" {
+  name     = "${var.env}-events-service"
+  role_arn = aws_iam_role.apps_codepipeline_role.arn
   tags = {
     Environment = var.env
   }
@@ -29,7 +34,7 @@ resource "aws_codepipeline" "go_app_pipeline" {
 
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.ab2d-github-connection.arn
-        FullRepositoryId = "sb-ebukaanene/Go-Service-3"
+        FullRepositoryId = "CMSgov/ab2d-events"
         #Owner                = "AB2D"
         #PollForSourceChanges = "false"
         #Repo                 = "Python-Service-2"
@@ -58,34 +63,45 @@ resource "aws_codepipeline" "go_app_pipeline" {
             },
             {
               name  = "AWS_ACCOUNT_ID"
-              type  = "PARAMETER_STORE"
-              value = "ACCOUNT_ID"
+              type  = "PLAINTEXT"
+              value = var.aws_account_number
             },
             {
               name  = "IMAGE_REPO_NAME"
               type  = "PLAINTEXT"
-              value = "nodeapp"
+              value = "${var.env}-services"
             },
             {
               name  = "IMAGE_TAG"
               type  = "PLAINTEXT"
-              value = "latest"
+              value = "events-service"
             },
             {
               name  = "CONTAINER_NAME"
               type  = "PLAINTEXT"
-              value = "goAppContainer"
+              value = "events-service-container"
             },
+            {
+              name  = "SONAR_LOGIN"
+              type  = "PLAINTEXT"
+              value = "xxx"
+            },
+            {
+              name  = "SONAR_HOST"
+              type  = "PLAINTEXT"
+              value = "https://sonarqube.cloud.cms.gov"
+            },
+
           ]
         )
         "ProjectName" = aws_codebuild_project.containerAppBuild.name
       }
       input_artifacts = [
-        "SourceArtifact",
+        "SourceArtifact"
       ]
       name = "Build"
       output_artifacts = [
-        "BuildArtifact"
+        "build_output"
       ]
       owner     = "AWS"
       provider  = "CodeBuild"
@@ -100,12 +116,12 @@ resource "aws_codepipeline" "go_app_pipeline" {
       category = "Deploy"
       configuration = {
         "ClusterName" = var.aws_ecs_cluster_name
-        "ServiceName" = var.aws_ecs_go_app_service_name
+        "ServiceName" = "ab2d-events-service"
         "FileName"    = "imagedefinitions.json"
         #"DeploymentTimeout" = "15"
       }
       input_artifacts = [
-        "BuildArtifact"
+        "build_output"
       ]
       name             = "Deploy"
       output_artifacts = []
@@ -116,3 +132,4 @@ resource "aws_codepipeline" "go_app_pipeline" {
     }
   }
 }
+

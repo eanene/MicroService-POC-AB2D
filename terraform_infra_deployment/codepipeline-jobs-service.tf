@@ -1,9 +1,16 @@
+
 #################################################
-############### Service 2 #######################
+############### Jobs Service #################
 #################################################
 
-resource "aws_codepipeline" "python_app_pipeline" {
-  name     = "${terraform.workspace}-python-service"
+# resource "aws_codestarconnections_connection" "ab2d-github-connection" {
+#   name          = "GITHUB-connection"
+#   provider_type = "GitHub"
+
+# }
+
+resource "aws_codepipeline" "jobs_service_pipeline" {
+  name     = "${var.env}-jobs-service"
   role_arn = aws_iam_role.apps_codepipeline_role.arn
   tags = {
     Environment = var.env
@@ -27,7 +34,7 @@ resource "aws_codepipeline" "python_app_pipeline" {
 
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.ab2d-github-connection.arn
-        FullRepositoryId = "sb-ebukaanene/Python-Service-2"
+        FullRepositoryId = "CMSgov/ab2d-jobs"
         #Owner                = "AB2D"
         #PollForSourceChanges = "false"
         #Repo                 = "Python-Service-2"
@@ -56,24 +63,35 @@ resource "aws_codepipeline" "python_app_pipeline" {
             },
             {
               name  = "AWS_ACCOUNT_ID"
-              type  = "PARAMETER_STORE"
+              type  = "PLAINTEXT"
               value = var.aws_account_number
             },
             {
               name  = "IMAGE_REPO_NAME"
               type  = "PLAINTEXT"
-              value = "micro-services-demo"
+              value = "${var.env}-services"
             },
             {
               name  = "IMAGE_TAG"
               type  = "PLAINTEXT"
-              value = "service2"
+              value = "jobs-service"
             },
             {
               name  = "CONTAINER_NAME"
               type  = "PLAINTEXT"
-              value = "pythonAppContainer"
+              value = "jobs-service-conatiner"
             },
+            {
+              name  = "SONAR_LOGIN"
+              type  = "PLAINTEXT"
+              value = "xxx"
+            },
+            {
+              name  = "SONAR_HOST"
+              type  = "PLAINTEXT"
+              value = "https://sonarqube.cloud.cms.gov"
+            },
+
           ]
         )
         "ProjectName" = aws_codebuild_project.containerAppBuild.name
@@ -83,7 +101,7 @@ resource "aws_codepipeline" "python_app_pipeline" {
       ]
       name = "Build"
       output_artifacts = [
-        "BuildArtifact"
+        "build_output"
       ]
       owner     = "AWS"
       provider  = "CodeBuild"
@@ -98,12 +116,12 @@ resource "aws_codepipeline" "python_app_pipeline" {
       category = "Deploy"
       configuration = {
         "ClusterName" = var.aws_ecs_cluster_name
-        "ServiceName" = var.aws_ecs_python_app_service_name
+        "ServiceName" = "ab2d-jobs-service"
         "FileName"    = "imagedefinitions.json"
         #"DeploymentTimeout" = "15"
       }
       input_artifacts = [
-        "BuildArtifact"
+        "build_output"
       ]
       name             = "Deploy"
       output_artifacts = []
