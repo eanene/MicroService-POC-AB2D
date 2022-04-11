@@ -5,14 +5,15 @@
 output "code_build_project" {
   value = aws_codebuild_project.containerAppBuild.arn
 }
-output "node_app_codepipeline_project" {
-  value = aws_codepipeline.app_pipeline["node"].arn
+/*
+output "contract_service_pipeline_project" {
+  value = aws_codepipeline.contract_service_pipeline.arn
 }
 
-output "python_app_codepipeline_project" {
-  value = aws_codepipeline.app_pipeline["python"].arn
+output "coverage_service_pipeline_project" {
+  value = aws_codepipeline.coverage_service_pipeline.arn
 }
 
-output "go_app_codepipeline_project" {
-  value = aws_codepipeline.app_pipeline["go"].arn
-}
+output "aggregator_service_pipeline_project" {
+  value = aws_codepipeline.aggregator_service_pipeline.arn
+}*/

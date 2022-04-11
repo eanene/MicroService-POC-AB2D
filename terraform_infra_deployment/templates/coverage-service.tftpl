@@ -1,4 +1,4 @@
-config = jsonencode(
+jsonencode(
           [
             {
               name  = "environment"
@@ -12,23 +12,34 @@ config = jsonencode(
             },
             {
               name  = "AWS_ACCOUNT_ID"
-              type  = "PARAMETER_STORE"
+              type  = "PLAINTEXT"
               value = aws_account_number
             },
             {
               name  = "IMAGE_REPO_NAME"
               type  = "PLAINTEXT"
-              value = "micro-services-demo"
+              value = "${env}-services"
             },
             {
               name  = "IMAGE_TAG"
               type  = "PLAINTEXT"
-              value = "service2"
+              value = "coverage-service"
             },
             {
               name  = "CONTAINER_NAME"
               type  = "PLAINTEXT"
-              value = "pythonAppContainer"
+              value = "coverage-service-container"
             },
+            {
+              name  = "SONAR_LOGIN"
+              type  = "PLAINTEXT"
+              value = "xxxx"
+            },
+            {
+              name  = "SONAR_HOST"
+              type  = "PLAINTEXT"
+              value = "https://sonarqube.cloud.cms.gov"
+            },
+
           ]
         )

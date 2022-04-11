@@ -1,0 +1,34 @@
+config = jsonencode(
+          [
+            {
+              name  = "environment"
+              type  = "PLAINTEXT"
+              value = env
+            },
+            {
+              name  = "AWS_DEFAULT_REGION"
+              type  = "PLAINTEXT"
+              value = aws_region
+            },
+            {
+              name  = "AWS_ACCOUNT_ID"
+              type  = "PARAMETER_STORE"
+              value = aws_account_number
+            },
+            {
+              name  = "IMAGE_REPO_NAME"
+              type  = "PLAINTEXT"
+              value = "${env}-services"
+            },
+            {
+              name  = "IMAGE_TAG"
+              type  = "PLAINTEXT"
+              value = "aggregator-service"
+            },
+            {
+              name  = "CONTAINER_NAME"
+              type  = "PLAINTEXT"
+              value = "aggregator-service-container"
+            },
+          ]
+        )

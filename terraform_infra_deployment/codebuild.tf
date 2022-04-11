@@ -246,9 +246,3 @@ resource "aws_iam_role_policy" "apps_codepipeline_role_policy" {
 }
 EOF
 }
-
-resource "aws_codestarconnections_connection" "ab2d-github-connection" {
-  name          = "GITHUB-connection"
-  provider_type = "GitHub"
-
-}

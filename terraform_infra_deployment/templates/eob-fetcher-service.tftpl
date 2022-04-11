@@ -18,17 +18,28 @@ config = jsonencode(
             {
               name  = "IMAGE_REPO_NAME"
               type  = "PLAINTEXT"
-              value = "micro-services-demo"
+              value = "${env}-services"
             },
             {
               name  = "IMAGE_TAG"
               type  = "PLAINTEXT"
-              value = "service1"
+              value = "eob-fetcher-service"
             },
             {
               name  = "CONTAINER_NAME"
               type  = "PLAINTEXT"
-              value = "nodeAppContainer"
+              value = "eob-fetcher-service-container"
             },
+            {
+              name  = "SONAR_LOGIN"
+              type  = "PLAINTEXT"
+              value = "xxxx"
+            },
+            {
+              name  = "SONAR_HOST"
+              type  = "PLAINTEXT"
+              value = "https://sonarqube.cloud.cms.gov"
+            },
+
           ]
         )

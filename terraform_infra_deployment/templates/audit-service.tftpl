@@ -18,17 +18,17 @@ config = jsonencode(
             {
               name  = "IMAGE_REPO_NAME"
               type  = "PLAINTEXT"
-              value = "nodeapp"
+              value = "${env}-services"
             },
             {
               name  = "IMAGE_TAG"
               type  = "PLAINTEXT"
-              value = "latest"
+              value = "audit-service"
             },
             {
               name  = "CONTAINER_NAME"
               type  = "PLAINTEXT"
-              value = "goAppContainer"
+              value = "audit-service-container"
             },
           ]
         )

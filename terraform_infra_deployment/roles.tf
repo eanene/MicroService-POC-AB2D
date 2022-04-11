@@ -130,3 +130,50 @@ resource "aws_iam_role" "apps_codepipeline_role" {
 }
 EOF
 }
+
+data "aws_iam_policy_document" "aws_chatbot_policy_document" {
+  statement {
+    actions = [
+      "chatbot:Describe*",
+      "chatbot:UpdateSlackChannelConfiguration",
+     "chatbot:CreateSlackChannelConfiguration",
+      "chatbot:DeleteSlackChannelConfiguration",
+      "chatbot:CreateChimeWebhookConfiguration",
+      "chatbot:UpdateChimeWebhookConfiguration"
+    ]
+     resources = [
+      "*"
+    ]
+  }
+}
+resource "aws_iam_policy" "aws_chatbot_policy" {
+  name   = "${var.env}ChatbotPolicy"
+  path   = "/delegatedadmin/developer/"
+  policy = data.aws_iam_policy_document.aws_chatbot_policy_document.json
+}
+
+resource "aws_iam_role_policy_attachment" "chat_bot_role_n_policy_attach" {
+  role       = aws_iam_role.ab2d_chatbot_role.name
+  policy_arn = aws_iam_policy.aws_chatbot_policy.arn
+}
+
+
+resource "aws_iam_role" "ab2d_chatbot_role" {
+  name                 = "${var.env}ChatbotRole"
+  path                 = "/delegatedadmin/developer/"
+  permissions_boundary = "arn:aws:iam::${var.aws_account_number}:policy/cms-cloud-admin/developer-boundary-policy"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "chatbot.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
