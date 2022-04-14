@@ -1,45 +1,40 @@
-config = jsonencode(
-          [
-            {
-              name  = "environment"
-              type  = "PLAINTEXT"
-              value = env
-            },
-            {
-              name  = "AWS_DEFAULT_REGION"
-              type  = "PLAINTEXT"
-              value = aws_region
-            },
-            {
-              name  = "AWS_ACCOUNT_ID"
-              type  = "PLAINTEXT"
-              value = aws_account_number
-            },
-            {
-              name  = "IMAGE_REPO_NAME"
-              type  = "PLAINTEXT"
-              value = "${env}-services"
-            },
-            {
-              name  = "IMAGE_TAG"
-              type  = "PLAINTEXT"
-              value = "parameter-service"
-            },
-            {
-              name  = "CONTAINER_NAME"
-              type  = "PLAINTEXT"
-              value = "parameter-service-container"
-            },
-            {
-              name  = "SONAR_LOGIN"
-              type  = "PLAINTEXT"
-              value = "xxx"
-            },
-            {
-              name  = "SONAR_HOST"
-              type  = "PLAINTEXT"
-              value = "https://sonarqube.cloud.cms.gov"
-            },
+${
+jsonencode(
+          [{
+        "name": "environment"
+        "type": "PLAINTEXT"
+        "value": "${env}"
+    }, {
+        "name": "AWS_DEFAULT_REGION"
+        "type": "PLAINTEXT"
+        "value": "${aws_region}"
+    }, {
+        "name": "AWS_ACCOUNT_ID"
+        "type": "PLAINTEXT"
+        "value": "${aws_account_number}"
+    }, {
+        "name": "IMAGE_REPO_NAME"
+        "type": "PLAINTEXT"
+        "value": "${env}-services"
+    }, {
+        "name": "IMAGE_TAG"
+        "type": "PLAINTEXT"
+        "value": "parameter-service"
+    }, {
+        "name": "CONTAINER_NAME"
+        "type": "PLAINTEXT"
+        "value": "parameter-service-container"
+    }, {
+        "name": "SONAR_LOGIN"
+        "type": "PLAINTEXT"
+        "value": "xxx"
+    }, {
+        "name": "SONAR_HOST"
+        "type": "PLAINTEXT"
+        "value": "https://sonarqube.cloud.cms.gov"
+    },
 
-          ]
+]
+
         )
+}
